@@ -115,29 +115,40 @@ new Typed(".typing-name", {
 });
 // load real time
 function renderTime() {
-    var e = new Date,
-        t = new Date("2004-03-01"),
-        n = e.getTime() - t.getTime(),
-        o = new Date(n),
-        a = o.getFullYear() - 1970,
-        l = o.getMonth(),
-        s = o.getDate(),
-        r = o.getHours(),
-        c = o.getMinutes(),
-        i = o.getSeconds();
-    24 == r ? r = 0 : r > 12 && (r -= 0), r < 10 && (r = "0" + r), c < 10 && (c = "0" + c), i < 10 && (i = "0" + i);
-    var d = document.getElementById("years"),
-        u = document.getElementById("months"),
-        m = document.getElementById("days"),
-        y = document.getElementById("hours"),
-        g = document.getElementById("minutes"),
-        p = document.getElementById("seconds");
-    d.innerText = a, u.innerText = l, m.innerText = s, y.innerText = r, g.innerText = c, p.innerText = i, d.style.color = "#ed4747", u.style.color = "#ed4747", m.style.color = "#ed4747", y.style.color = "#0099ff", g.style.color = "#0099ff", p.style.color = "#0099ff", setTimeout("renderTime()", 1e3)
+    var currentDate = new Date,
+        myBD = new Date("2004-03-01"),
+        milTime = currentDate.getTime() - myBD.getTime(),
+        disDate = new Date(milTime),
+        years = disDate.getFullYear() - 1970,
+        months = disDate.getMonth(),
+        days = disDate.getDate(),
+        hours = disDate.getHours(),
+        mins = disDate.getMinutes(),
+        sec = disDate.getSeconds();
+
+    24 == hours ? hours = 0 : hours > 12 && (hours -= 0),
+        hours < 10 && (hours = "0" + hours),
+        mins < 10 && (mins = "0" + mins), sec < 10 && (sec = "0" + sec);
+
+    var yearInner = document.getElementById("years"),
+        monthInner = document.getElementById("months"),
+        dayInner = document.getElementById("days"),
+        hourInner = document.getElementById("hours"),
+        minInner = document.getElementById("minutes"),
+        secInner = document.getElementById("seconds");
+
+    yearInner.innerText = years, monthInner.innerText = months, dayInner.innerText = days,
+        hourInner.innerText = hours, minInner.innerText = mins, secInner.innerText = sec,
+        yearInner.style.color = "#ed4747", monthInner.style.color = "#ed4747", dayInner.style.color = "#ed4747",
+        hourInner.style.color = "#0099ff", minInner.style.color = "#0099ff", secInner.style.color = "#0099ff",
+        setTimeout("renderTime()", 1e3)
 }
-window.onload = (event) => {
+
+// preload page
+window.addEventListener("load", () => {
     renderTime();
-};
-document.body.onload(document.body.classList.add("loaded"));
+    document.body.classList.add("loaded");
+});
 
 // click about-tabs
 (() => {
