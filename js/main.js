@@ -113,18 +113,69 @@ new Typed(".typing-name", {
     backSpeed: 60,
     loop: !0
 });
+
 // load real time
+function getAmoDate(day, month, year) {
+    let amountDay = 0;
+    const leap = new Date(year, 1, 29).getDate() === 29;
+    switch (month) {
+        case 1:
+        case 3:
+        case 5:
+        case 7:
+        case 8:
+        case 10:
+        case 12:
+            amountDay = 31;
+            break;
+        case 4:
+        case 6:
+        case 9:
+        case 11:
+            amountDay = 30;
+            break;
+        default:
+            amountDay = leap ? 29 : 28;
+            break;
+    };
+    return amountDay - day;
+};
+
 function renderTime() {
-    var currentDate = new Date,
-        myBD = new Date("2004-03-01"),
-        milTime = currentDate.getTime() - myBD.getTime(),
-        disDate = new Date(milTime),
-        years = disDate.getFullYear() - 1970,
-        months = disDate.getMonth(),
-        days = disDate.getDate(),
-        hours = disDate.getHours(),
-        mins = disDate.getMinutes(),
-        sec = disDate.getSeconds();
+    var myBD = new Date("03/01/2004"),
+        currentDate = new Date();
+    let hours = currentDate.getHours(),
+        mins = currentDate.getMinutes(),
+        sec = currentDate.getSeconds();
+
+    myDay = Number.parseInt(myBD.getDate());
+    myMonth = Number.parseInt(myBD.getMonth() + 1);
+    myYear = Number.parseInt(myBD.getFullYear());
+
+    currentDay = Number.parseInt(currentDate.getDate());
+    currentMonth = Number.parseInt(currentDate.getMonth() + 1);
+    currentYear = Number.parseInt(currentDate.getFullYear());
+
+    diffDay = 0;
+    diffMonth = 0;
+    diffYear = 0;
+
+    diffDay += getAmoDate(myDay, myMonth, myYear) + currentDay;
+
+    if (++myMonth <= 12)
+        diffMonth += 12 - myMonth + 1;
+    if (--currentMonth >= 1)
+        diffMonth += currentMonth;
+    while (++myYear <= currentYear - 1)
+        diffYear++;
+
+    diffMonth += diffDay / 31;
+    diffDay %= 31;
+    diffYear += diffMonth / 12;
+    diffMonth %= 12;
+
+    diffYear = Math.floor(diffYear);
+    diffMonth = Math.floor(diffMonth);
 
     24 == hours ? hours = 0 : hours > 12 && (hours -= 0),
         hours < 10 && (hours = "0" + hours),
@@ -137,11 +188,11 @@ function renderTime() {
         minInner = document.getElementById("minutes"),
         secInner = document.getElementById("seconds");
 
-    yearInner.innerText = years, monthInner.innerText = months, dayInner.innerText = days,
+    yearInner.innerText = diffYear, monthInner.innerText = diffMonth, dayInner.innerText = diffDay,
         hourInner.innerText = hours, minInner.innerText = mins, secInner.innerText = sec,
         yearInner.style.color = "#ed4747", monthInner.style.color = "#ed4747", dayInner.style.color = "#ed4747",
-        hourInner.style.color = "#0099ff", minInner.style.color = "#0099ff", secInner.style.color = "#0099ff",
-        setTimeout("renderTime()", 1e3)
+        hourInner.style.color = "#0099ff", minInner.style.color = "#0099ff", secInner.style.color = "#0099ff";
+    setTimeout("renderTime()", 1e3)
 }
 
 // preload page

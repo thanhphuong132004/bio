@@ -490,7 +490,6 @@ a {
     color: var(--text-black-300);
 
     font-size: 18px;
-    text-transform: capitalize;
 }
 
 .home-section .home-text h2 {
@@ -653,7 +652,7 @@ a {
 }
 
 .about-section .about-info .btn-1 {
-    margin: 30px 20px 0 0;
+    margin: 30px auto;
 }
 
 /* about tabs */
@@ -1011,8 +1010,18 @@ footer p i {
     color: #fd4040;
 }
 
-footer p a {
+a.copyright:hover {
     color: var(--skin-color);
+}
+
+a.copyright {
+    color: #e0d320;
     font-weight: bold;
     text-transform: capitalize;
+
+    transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
 }
